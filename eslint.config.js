@@ -27,6 +27,7 @@ export default tseslint.config(
         'warn',
         { allowConstantExport: true },
       ],
+      'react-hooks/exhaustive-deps': 'off',
       'simple-import-sort/imports': [
         'warn',
         {
@@ -60,7 +61,79 @@ export default tseslint.config(
         'warn', {
           endOfLine: 'auto'
         }
-      ]
+      ],
+      '@typescript-eslint/naming-convention': [
+        'error',
+        {
+          selector: 'interface',
+          format: ['PascalCase'],
+          prefix: ['I'],
+        },
+        {
+          selector: 'typeAlias',
+          format: ['PascalCase'],
+        },
+        {
+          selector: 'class',
+          format: ['PascalCase'],
+        },
+        {
+          selector: 'classMethod',
+          format: ['PascalCase'],
+        },
+        {
+          selector: 'classProperty',
+          modifiers: ['public', 'protected'],
+          format: ['PascalCase'],
+        },
+        {
+          selector: 'classProperty',
+          modifiers: ['private', 'static'],
+          format: ['PascalCase'],
+        },
+        {
+          selector: 'classProperty',
+          modifiers: ['private'],
+          format: ['camelCase'],
+          prefix: ['_']
+        },
+        {
+          selector: 'method',
+          format: ['camelCase'],
+        },
+        {
+          selector: 'variable',
+          format: ['camelCase', 'UPPER_CASE', 'PascalCase'],
+        },
+        {
+          selector: 'objectLiteralMethod',
+          format: ['camelCase', 'UPPER_CASE']
+        },
+        {
+          selector: 'objectLiteralProperty',
+          format: ['camelCase', 'UPPER_CASE']
+        },
+        {
+          selector: 'typeMethod',
+          format: ['camelCase']
+        },
+        {
+          selector: 'typeParameter',
+          format: ['UPPER_CASE', 'PascalCase'],
+        },
+        {
+          selector: 'typeProperty',
+          format: ['camelCase']
+        }
+      ],
+      "lines-between-class-members": ["error", "always"],
     },
+    settings: {
+      'import/resolver': {
+        'typescript': {
+          'project': 'tsconfig.app.json'
+        }
+      }
+    }
   },
 )
