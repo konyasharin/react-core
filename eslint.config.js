@@ -4,6 +4,7 @@ import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 import prettier from 'eslint-plugin-prettier'
 import simpleImportSort from 'eslint-plugin-simple-import-sort'
+import boundaries from 'eslint-plugin-boundaries'
 import tseslint from 'typescript-eslint'
 
 export default tseslint.config(
@@ -19,6 +20,7 @@ export default tseslint.config(
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
       'prettier': prettier,
+      'boundaries': boundaries,
       'simple-import-sort': simpleImportSort,
     },
     rules: {
@@ -56,6 +58,29 @@ export default tseslint.config(
           ],
         },
       ],
+      'boundaries/element-types': [
+        'error',
+        {
+          'default': 'allow',
+          'rules': [
+            {
+              'from': 'shared',
+              'disallow': [
+                'app',
+                'modules',
+              ],
+              'message': 'import in shared scope from app, modules is forbidden'
+            },
+            {
+              'from': 'modules',
+              'disallow': [
+                'app',
+              ],
+              'message': 'import in modules scope from app is forbidden'
+            },
+          ]
+        }
+      ],
       'simple-import-sort/exports': 'warn',
       'prettier/prettier': [
         'warn', {
@@ -65,11 +90,6 @@ export default tseslint.config(
       '@typescript-eslint/naming-convention': [
         'error',
         {
-          selector: 'interface',
-          format: ['PascalCase'],
-          prefix: ['I'],
-        },
-        {
           selector: 'typeAlias',
           format: ['PascalCase'],
         },
@@ -78,17 +98,18 @@ export default tseslint.config(
           format: ['PascalCase'],
         },
         {
-          selector: 'classMethod',
-          format: ['PascalCase'],
-        },
-        {
           selector: 'classProperty',
           modifiers: ['public', 'protected'],
+          format: ['camelCase'],
+        },
+        {
+          selector: 'classProperty',
+          modifiers: ['static'],
           format: ['PascalCase'],
         },
         {
           selector: 'classProperty',
-          modifiers: ['private', 'static'],
+          modifiers: ['static', 'private'],
           format: ['PascalCase'],
         },
         {
@@ -126,9 +147,34 @@ export default tseslint.config(
           format: ['camelCase']
         }
       ],
-      "lines-between-class-members": ["error", "always"],
+      "lines-between-class-members": [
+        "error",
+        {
+          enforce: [
+            {
+              blankLine: "always",
+              prev: "method",
+              next: "method"
+            },
+          ]
+        }
+      ],
     },
     settings: {
+      'boundaries/elements': [
+        {
+          'type': 'app',
+          'pattern': 'src/app/**'
+        },
+        {
+          'type': 'shared',
+          'pattern': 'src/shared/**'
+        },
+        {
+          'type': 'modules',
+          'pattern': 'src/modules/**'
+        },
+      ],
       'import/resolver': {
         'typescript': {
           'project': 'tsconfig.app.json'
