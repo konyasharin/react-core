@@ -10,7 +10,8 @@
     "lint": "eslint .",
     "fix": "eslint . --fix",
     "preview": "vite preview",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "check-types": "tsc --noEmit --pretty"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
